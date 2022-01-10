@@ -63,13 +63,13 @@ jobs:
       - name: Download Packages
         run: |
           cd ./openwrt-build
-          make download -j$(nproc)
+          make -j$(nproc) download V=sc
           cd ..
 
       - name: Build Firmware
         run: |
           cd ./openwrt-build
-          make -j$(nproc) || make -j1 V=s
+          make -j$(nproc) V=sc || make -j1 V=sc
           echo "======================="
           echo "Space usage:"
           echo "======================="
