@@ -63,13 +63,13 @@ jobs:
       - name: Download Packages
         run: |
           cd ./openwrt-build
-          make -j$(nproc) download V=sc
+          make -j$(nproc) download
           cd ..
 
       - name: Build Firmware
         run: |
           cd ./openwrt-build
-          make -j$(nproc) V=sc || make -j1 V=sc
+          make -j$(nproc) || make -j1 V=sc
           echo "======================="
           echo "Space usage:"
           echo "======================="
@@ -90,7 +90,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: x86_64 Downloads
-          path: ./openwrt-build/bin/package/
+          path: ./openwrt-build/bin/packages/
 
       - name: Publish DL Packages
         uses: actions/upload-artifact@v2
