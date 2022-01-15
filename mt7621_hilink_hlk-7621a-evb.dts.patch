@@ -1,0 +1,32 @@
+--- a/target/linux/ramips/dts/mt7621_hilink_hlk-7621a-evb.dts
++++ b/target/linux/ramips/dts/mt7621_hilink_hlk-7621a-evb.dts
+@@ -9,6 +9,20 @@
+ 	compatible = "hilink,hlk-7621a-evb", "mediatek,mt7621-soc";
+ 	model = "HiLink HLK-7621A evaluation board";
+ 
++	aliases {
++		led-running = &led_status;
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		led_status: led_d9 {
++			label = "green:status";
++			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
+ 	keys {
+ 		compatible = "gpio-keys";
+ 
+@@ -104,7 +118,7 @@
+ 
+ &state_default {
+ 	gpio {
+-		groups = "wdt";
++		groups = "wdt", "jtag";
+ 		function = "gpio";
+ 	};
+ };
