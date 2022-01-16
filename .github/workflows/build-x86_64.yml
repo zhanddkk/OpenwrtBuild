@@ -64,36 +64,39 @@ jobs:
         run: |
           cd ./openwrt-build
           make -j$(nproc) download
+          tar -czvf dl.tar.gz dl/
           cd ..
 
       - name: Build Firmware
         run: |
           cd ./openwrt-build
           make -j$(nproc) || make -j1 V=sc
+          tar -czvf target.tar.gz bin/targets/
+          tar -czvf packages.tar.gz bin/packages/
+          rm -rf ./dl ./bin
           echo "======================="
           echo "Space usage:"
           echo "======================="
           df -h
           echo "======================="
-          du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+          du -h --max-depth=1 ./ --exclude=build_dir
           du -h --max-depth=1 ./build_dir
-          du -h --max-depth=1 ./bin
           cd ..
 
       - name: Publish Firmware
         uses: actions/upload-artifact@v2
         with:
           name: x86_64 Firmware
-          path: ./openwrt-build/bin/targets/
+          path: ./openwrt-build/targets.tar.gz
     
       - name: Publish Firmware Packages
         uses: actions/upload-artifact@v2
         with:
           name: x86_64 Downloads
-          path: ./openwrt-build/bin/packages/
+          path: ./openwrt-build/packages.tar.gz
 
       - name: Publish DL Packages
         uses: actions/upload-artifact@v2
         with:
           name: x86_64 Downloads
-          path: ./openwrt-build/dl
+          path: ./openwrt-build/dl.tar.gz
