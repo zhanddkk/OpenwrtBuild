@@ -65,22 +65,25 @@ jobs:
           cd ./openwrt-build
           make -j$(nproc) download
           tar -czvf dl.tar.gz dl/
+          rm -rf ./dl
           cd ..
 
       - name: Build Firmware
         run: |
           cd ./openwrt-build
           make -j$(nproc) || make -j1 V=sc
-          tar -czvf target.tar.gz bin/targets/
+          rm -rf ./build_dir/ ./staging_dir
+          tar -czvf targets.tar.gz bin/targets/
+          rm -rf ./bin/targets/
           tar -czvf packages.tar.gz bin/packages/
-          rm -rf ./dl ./bin
+          rm -rf ./bin
+          ls -al .
           echo "======================="
           echo "Space usage:"
           echo "======================="
           df -h
           echo "======================="
-          du -h --max-depth=1 ./ --exclude=build_dir
-          du -h --max-depth=1 ./build_dir
+          du -h --max-depth=1
           cd ..
 
       - name: Publish Firmware
