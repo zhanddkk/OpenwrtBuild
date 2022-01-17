@@ -43,7 +43,16 @@ jobs:
       # Chech out openwrt source code
       - name: Get Openwrt repo
         run: |
-          git clone https://github.com/openwrt/openwrt.git openwrt-build
+          mkdir openwrt-build
+          cd openwrt-build
+          git init .
+          git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin https://github.com/openwrt/openwrt.git master
+          git checkout --progress --force -B master refs/remotes/origin/master
+          cd ..
+          if [-x patch.sh]; then
+            echo "do patch for repo..."
+            ./patch.sh x86_64
+          fi 
       
       # Repo prepare
       - name: Update feeds
@@ -89,17 +98,17 @@ jobs:
       - name: Publish Firmware
         uses: actions/upload-artifact@v2
         with:
-          name: x86_64 Firmware
+          name: Firmware
           path: ./openwrt-build/targets.tar.gz
     
       - name: Publish Firmware Packages
         uses: actions/upload-artifact@v2
         with:
-          name: x86_64 Downloads
+          name: Packages
           path: ./openwrt-build/packages.tar.gz
 
       - name: Publish DL Packages
         uses: actions/upload-artifact@v2
         with:
-          name: x86_64 Downloads
+          name: Downloads
           path: ./openwrt-build/dl.tar.gz
