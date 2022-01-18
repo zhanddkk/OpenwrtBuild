@@ -62,7 +62,7 @@ jobs:
       - name: Patch
         run: |
           cd ./openwrt-build
-          if [-x patch.sh]; then
+          if [ -x patch.sh ]; then
             echo "do patch for repo..."
             ./patch.sh x86_64
           fi
