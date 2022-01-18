@@ -1,0 +1,54 @@
+#
+# Copyright (C) 2013-2015 OpenWrt.org
+#
+
+. /lib/functions/uci-defaults.sh
+
+board_config_update
+
+json_is_a network object && exit 0
+
+NET_LIST=`ls /sys/class/net/ | grep eth`
+NEW_LIST=
+WAN=
+LAN=
+for NET_IF in ${NET_LIST}
+do
+        NEW_LIST=`echo ${NEW_LIST} ${NET_IF}`
+done
+
+echo ${NEW_LIST}
+
+for NET_IF in ${NEW_LIST}; do
+        echo "WAN: ${WAN}"
+        if [ ! ${WAN} ]; then
+                WAN=${NET_IF}
+                echo "set wan->${NET_IF}"
+        else
+                LAN=`echo ${LAN} ${NET_IF}`
+                echo "add lan->${NET_IF}"
+        fi
+done
+
+if [ ! ${LAN} ]; then
+        if [ ! ${WAN} ]; then
+                LAN=eth0
+        else
+                LAN=${WAN}
+                WAN=
+        fi
+fi
+
+echo wan: ${WAN}
+echo lan: ${LAN}
+
+ucidef_set_interface_lan "${LAN}"
+[ ${WAN} ] && ucidef_set_interface_wan "${WAN}"
+ucidef_set_interface "lan" protocol "static" ipaddr "192.168.2.1" netmask "255.255.255.0"
+
+#ucidef_set_interface_lan 'eth0'
+#[ -d /sys/class/net/eth1 ] && ucidef_set_interface_wan 'eth1'
+
+board_config_flush
+
+exit 0

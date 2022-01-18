@@ -49,10 +49,6 @@ jobs:
           git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin https://github.com/openwrt/openwrt.git master
           git checkout --progress --force -B master refs/remotes/origin/master
           cd ..
-          if [-x patch.sh]; then
-            echo "do patch for repo..."
-            ./patch.sh x86_64
-          fi 
       
       # Repo prepare
       - name: Update feeds
@@ -62,10 +58,14 @@ jobs:
           ./scripts/feeds install -a
           cd ..
 
-      - name: Generate configuration file
+      - name: Patch
         run: |
           cd ./openwrt-build
-          [ -f ../x86_64.config ] && cat ../x86_64.config && cp -afv ../x86_64.config .config
+          if [-x patch.sh]; then
+            echo "do patch for repo..."
+            ./patch.sh x86_64
+          fi
+          [ ! -s .config ] || echo "use default config"
           make defconfig
           cd ..
       
