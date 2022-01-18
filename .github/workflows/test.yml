@@ -28,7 +28,9 @@ jobs:
       # Chech out openwrt source code
       - name: Get Openwrt repo
         run: |
+          sudo apt install net-tools
           cat /proc/cpuinfo
+          ifconfig
           mkdir openwrt-build
           cd openwrt-build
           git init .
