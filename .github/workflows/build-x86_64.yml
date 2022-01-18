@@ -62,11 +62,11 @@ jobs:
       - name: Patch
         run: |
           cd ./openwrt-build
-          if [ -x patch.sh ]; then
+          if [ -x ../patch.sh ]; then
             echo "do patch for repo..."
-            ./patch.sh x86_64
+            ../patch.sh x86_64
           fi
-          [ ! -s .config ] || echo "use default config"
+          [ -s .config ] || echo "use default config"
           make defconfig
           cd ..
       
