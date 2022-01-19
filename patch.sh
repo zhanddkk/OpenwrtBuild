@@ -17,9 +17,7 @@ esac
 for BOARD_PATCH_PATH in ${PATCH_PATH}; do
 	if [ -d ${BOARD_PATCH_PATH} ]; then
 		echo "patch ${BOARD_PATCH_PATH}"
-		PATCH_FILE_LIST=`ls ${BOARD_PATCH_PATH}/*.patch || echo ""`
-		echo "${PATCH_FILE_LIST}"
-		for PATCH_F in ${PATCH_FILE_LIST}; do
+		for PATCH_F in ${BOARD_PATCH_PATH}/*.patch; do
 			[ -f ${PATCH_F} ] && patch -p1 -f < ${PATCH_F}
 		done
 	fi
