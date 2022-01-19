@@ -1,13 +1,32 @@
 #!/bin/bash
+set -e
 
-[ -f ../$1.config ] && cat ../$1.config && cp -afv ../$1.config .config
+BOARD=$1
+PATCH_PATH=../patch/common
+
 case "$1" in
-    x86_64)
-    patch -p1 < ../99-default_network.patch
+	x86_64|hilink-mt7621at)
+	PATCH_PATH=`echo ${PATCH_PATH} ../patch/$1`
 	;;
-    hilink-mt7621at)
-    cp -afv ../610-v5.13-58-net-ethernet-mtk_eth_soc-add-ipv6-flow-offloading-support.patch target/linux/generic/backport-5.10/
-    ;;
+	*)
+	echo "invalid board: ${BOARD}"
+	exit 1
+	;;
 esac
 
-exit 0
+for BOARD_PATCH_PATH in ${PATCH_PATH}; do
+	if [ -d ${BOARD_PATCH_PATH} ]; then
+		echo "patch ${BOARD_PATCH_PATH}"
+		PATCH_FILE_LIST=`ls ${BOARD_PATCH_PATH}/*.patch || echo ""`
+		echo "${PATCH_FILE_LIST}"
+		for PATCH_F in ${PATCH_FILE_LIST}; do
+			[ -f ${PATCH_F} ] && patch -p1 -f < ${PATCH_F}
+		done
+	fi
+done
+
+set +e
+echo "update config..."
+[ -f ../${BOARD}.config ] && cat ../${BOARD}.config && cp -afv ../${BOARD}.config .config
+exit $?
+
