@@ -5,7 +5,7 @@ BOARD=$1
 PATCH_PATH=../patch/common
 
 case "$1" in
-	x86_64|hilink-mt7621at)
+	x86_64|hlk-7621a)
 	PATCH_PATH=`echo ${PATCH_PATH} ../patch/$1`
 	;;
 	*)

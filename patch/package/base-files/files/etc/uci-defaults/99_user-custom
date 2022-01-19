@@ -1,0 +1,20 @@
+uci -q set "system.@system[-1].hostname='HomeRouter'"
+uci -q set "system.@system[-1].zonename='Asia/Shanghai'"
+uci -q set "system.@system[-1].timezone='CST-8'"
+
+
+uci -q set "network.lan.proto='static'"
+uci -q set "network.lan.ipaddr='192.168.2.1'"
+uci -q set "network.lan.netmask='255.255.255.0'"
+
+uci -q batch <<-EOF
+	set dhcp.lan.ra='relay'
+	set dhcp.lan.dhcpv6='relay'
+	set dhcp.lan.ndp='relay'
+	set dhcp.wan.master='1'
+	set dhcp.wan.ra='relay'
+	set dhcp.wan.dhcpv6='relay'
+	set dhcp.wan.ndp='relay'
+EOF
+
+uci commit
