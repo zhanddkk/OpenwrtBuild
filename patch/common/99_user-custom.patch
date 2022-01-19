@@ -1,26 +1,30 @@
 diff --git a/package/base-files/files/etc/uci-defaults/99_user-custom b/package/base-files/files/etc/uci-defaults/99_user-custom
 new file mode 100644
-index 0000000..e93f16c
+index 0000000..b42dd0c
 --- /dev/null
 +++ b/package/base-files/files/etc/uci-defaults/99_user-custom
-@@ -0,0 +1,20 @@
-+uci -q set "system.@system[-1].hostname=HomeRouter"
-+uci -q set "system.@system[-1].zonename=Asia/Shanghai"
-+uci -q set "system.@system[-1].timezone=CST-8"
-+
-+
-+uci -q set "network.lan.proto=static"
-+uci -q set "network.lan.ipaddr=192.168.2.1"
-+uci -q set "network.lan.netmask=255.255.255.0"
+@@ -0,0 +1,24 @@
 +
 +uci -q batch <<-EOF
-+	set dhcp.lan.ra=relay
-+	set dhcp.lan.dhcpv6=relay
-+	set dhcp.lan.ndp=relay
-+	set dhcp.wan.master=1
-+	set dhcp.wan.ra=relay
-+	set dhcp.wan.dhcpv6=relay
-+	set dhcp.wan.ndp=relay
++	set system.@system[-1].hostname='HomeRouter'
++	set system.@system[-1].zonename='Asia/Shanghai'
++	set system.@system[-1].timezone='CST-8'
++EOF
++
++uci -q batch <<-EOF
++	set network.lan.proto='static'
++	set network.lan.ipaddr='192.168.2.1'
++	set network.lan.netmask='255.255.255.0'
++EOF
++
++uci -q batch <<-EOF
++	set dhcp.lan.ra='relay'
++	set dhcp.lan.dhcpv6='relay'
++	set dhcp.lan.ndp='relay'
++	set dhcp.wan.master='1'
++	set dhcp.wan.ra='relay'
++	set dhcp.wan.dhcpv6='relay'
++	set dhcp.wan.ndp='relay'
 +EOF
 +
 +uci commit
