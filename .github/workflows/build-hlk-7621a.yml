@@ -27,8 +27,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        env:
-        	BuildID: $(cat ./snapshot/commit-id.txt)
         	
       # Prepare the build environment
       - name: Setup Environment
@@ -45,10 +43,11 @@ jobs:
       # Chech out openwrt source code
       - name: Get Openwrt repo
         run: |
-        echo "Build ID: ${BuildID}"
-        ./init-openwrt-repo.sh ${BuildID} openwrt-build
-        cd openwrt-build && patch -p1 < ./snapshot/feeds.conf.default.patch
-        cd -
+          BuildID=$(cat ./snapshot/commit-id.txt)
+          echo "Build ID: ${BuildID}"
+          ./init-openwrt-repo.sh ${BuildID} openwrt-build
+          cd openwrt-build && patch -p1 < ./snapshot/feeds.conf.default.patch
+          cd -
       
       # Repo prepare
       - name: Update feeds
