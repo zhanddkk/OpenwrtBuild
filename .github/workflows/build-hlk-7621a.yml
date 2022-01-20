@@ -42,14 +42,7 @@ jobs:
 
       # Chech out openwrt source code
       - name: Get Openwrt repo
-        run: |
-          mkdir openwrt-build
-          cd openwrt-build
-          git init .
-          git remote add origin https://github.com/openwrt/openwrt.git
-          git fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin master
-          git checkout --progress --force -B master refs/remotes/origin/master
-          cd ..
+        run: ./init-openwrt-repo.sh master openwrt-build
       
       # Repo prepare
       - name: Update feeds
