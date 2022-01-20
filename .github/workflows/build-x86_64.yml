@@ -43,7 +43,6 @@ jobs:
       # Chech out openwrt source code
       - name: Get Openwrt repo
         run: |
-          BuildID=$(cat ./snapshot/commit-id.txt)
           echo "Build ID: ${BuildID}"
           ./init-openwrt-repo.sh ${BuildID} openwrt-build
           cd openwrt-build && patch -p1 < ./snapshot/feeds.conf.default.patch
