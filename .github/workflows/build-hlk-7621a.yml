@@ -42,7 +42,7 @@ jobs:
 
       # Chech out openwrt source code
       - name: Get Openwrt repo
-        run: ./init-openwrt-repo.sh master openwrt-build
+        run: ./init-openwrt-repo.sh 'cat ./commit-id.txt' openwrt-build
       
       # Repo prepare
       - name: Update feeds

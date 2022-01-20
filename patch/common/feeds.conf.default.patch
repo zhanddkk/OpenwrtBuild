@@ -1,0 +1,16 @@
+diff --git a/feeds.conf.default b/feeds.conf.default
+index fc67933..bdd0b14 100644
+--- a/feeds.conf.default
++++ b/feeds.conf.default
+@@ -1,7 +1,7 @@
+-src-git packages https://git.openwrt.org/feed/packages.git
+-src-git luci https://git.openwrt.org/project/luci.git
+-src-git routing https://git.openwrt.org/feed/routing.git
+-src-git telephony https://git.openwrt.org/feed/telephony.git
++src-git packages https://git.openwrt.org/feed/packages.git^69c81790d1045e064cd9c643a1643a0f919f448d
++src-git luci https://git.openwrt.org/project/luci.git^8752701b0d01a81d0bd0a735be733f24ad11ab69
++src-git routing https://git.openwrt.org/feed/routing.git^0bffe620b441c039780d4336a15c8ed4f2ebbbf4
++src-git telephony https://git.openwrt.org/feed/telephony.git^33fda345d240faf9aab3c732d31933e4f26330d2
+ #src-git video https://github.com/openwrt/video.git
+ #src-git targets https://github.com/openwrt/targets.git
+ #src-git oldpackages http://git.openwrt.org/packages.git
