@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+
+START=95
+STOP=4
+
+USE_PROCD=1
+NAME=vlmcsd
+
+start_service() {
+	if [ -x "/usr/bin/vlmcsd" ]; then
+		procd_open_instance vlmscd
+		procd_set_param command /usr/bin/vlmcsd -i /etc/vlmcsd/vlmcsd.ini -D -l syslog
+		procd_set_param respawn 3600 1 0
+		procd_close_instance
+	fi
+}
