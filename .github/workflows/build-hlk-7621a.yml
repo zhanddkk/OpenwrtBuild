@@ -55,6 +55,7 @@ jobs:
       - name: Patch
         run: |
           cd ./openwrt-build
+          ../install-app.sh
           if [ -x ../patch.sh ]; then
             echo "do patch for repo..."
             ../patch.sh hlk-7621a

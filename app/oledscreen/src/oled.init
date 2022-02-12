@@ -1,0 +1,16 @@
+#!/bin/sh /etc/rc.common
+
+START=95
+STOP=4
+
+USE_PROCD=1
+NAME=oled
+
+start_service() {
+	if [ -x "/usr/bin/oledscreen" ]; then
+		procd_open_instance oled
+		procd_set_param command /usr/bin/oledscreen
+		procd_set_param respawn 3600 1 0
+		procd_close_instance
+	fi
+}
